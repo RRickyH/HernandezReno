@@ -1,0 +1,25 @@
+# Ignore environment variables.
+.env
+*.log
+*.swp
+*.exe
+*.out
+*.o
+*.a
+*.so
+*.sum
+*.mod
+
+# Backend
+backend/app
+backend/bin/
+backend/pkg/
+backend/vendor/
+
+# Database
+pgdata/
+postrges-data/
+*.db
+*.sqlite
+*.pgdump
+*.pgpass
