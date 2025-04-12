@@ -7,8 +7,6 @@
 *.o
 *.a
 *.so
-*.sum
-*.mod
 
 # Backend
 backend/app
@@ -23,3 +21,14 @@ postrges-data/
 *.sqlite
 *.pgdump
 *.pgpass
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
