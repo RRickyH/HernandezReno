@@ -1,0 +1,25 @@
+# Workflow to deploy changes to develop onto a Raspberry Pi for testing.
+
+name: Deploy to Raspberry Pi
+
+on:
+  push:
+    branches: [ "develop" ]
+
+  # Allows you to run this workflow manually from the Actions tab.
+  workflow_dispatch:
+
+# This action only has one job.
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      # Checkout develop.
+      - uses: actions/checkout@v4
+        with:
+              ref: develop
+
+      # Build the application.
+      - name: Run docker
+        run: docker-compose up --build
