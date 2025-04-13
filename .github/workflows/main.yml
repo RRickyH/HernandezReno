@@ -23,7 +23,7 @@ jobs:
 
       - name: Set up restile .env file
         run: |
-          echo "ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}" > .env
+          echo "ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}" >> restile/.env
 
       # Build the application.
       - name: Run docker
