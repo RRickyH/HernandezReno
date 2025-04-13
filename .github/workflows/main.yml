@@ -20,6 +20,10 @@ jobs:
         with:
               ref: develop
 
+      - name: Set up restile .env file
+        run: |
+          echo "ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }}" > .env
+
       # Build the application.
       - name: Run docker
         run: docker-compose up --build -d
