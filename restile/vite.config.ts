@@ -9,7 +9,10 @@ export default defineConfig(({ mode }) => {
 
   return {
     base: "/",
-    plugins: [react()],
+    plugins: [
+        react(),
+        tailwindcss(),
+    ],
     preview: {
       port: 5173,
       strictPort: true,
@@ -20,6 +23,11 @@ export default defineConfig(({ mode }) => {
       host: true,
       allowedHosts: env.ALLOWED_HOSTS?.split(','),
       origin: "http://0.0.0.0:5173",
-    }
+    },
+    resolve: {
+      alias: {
+        src: "/src",
+      },
+    },
   };
 });
