@@ -1,8 +1,10 @@
 function Home () {
     return (
         <>
-        <h1>Hernandez Reno Home Page!</h1>
-        <p>Coming Soon 😎🔧</p>
+            {/* Hero Section */}
+            <section>
+
+            </section>
         </>
         )
 }
