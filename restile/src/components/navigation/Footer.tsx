@@ -6,7 +6,7 @@ const Footer = () => {
           Hernández Renovations
         </h3>
         <p className="text-sm justify-center text-center text-gray-400">
-          &copy; {new Date().getFullYear()} All rights reserved.
+          &copy; {new Date().getFullYear()} Hernández Renovations. All rights reserved.
         </p>
       </div>
     </footer>
