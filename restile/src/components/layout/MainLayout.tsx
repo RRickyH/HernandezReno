@@ -3,7 +3,7 @@ import Footer from "src/components/navigation/Footer";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-950">
+    <div className="flex flex-col min-h-screen">
         <header>
             <NavBar items={[
                 {text: "About", href: "about"},

@@ -11,10 +11,10 @@ interface NavBarProps {
 
 const NavBar = ({items, button}: NavBarProps) => {
   return (
-    <nav className="flex items-center justify-between w-full py-4 px-4 md:px-32 bg-gray-900 shadow-sm">
-        <div className="flex items-center justify-between gap-4">
+    <nav className="flex items-center justify-between w-full bg-gray-900 shadow-sm">
+        <div className="flex items-center justify-between px-4 py-2 gap-4">
           <NavLink to="/" className="flex items-center">
-            <img src="Hernandez_renovations_logo_white.svg" alt="logo image" className="h-12 w-auto" />
+            <img src="HR_logo.svg" alt="logo image" className="h-12 w-auto" />
           </NavLink>
           <div className="flex flex-col md:flex-row md:items-center justify-between md:gap-2">
             <span className="md:text-4xl text-gray-50 font-bold">Hernández</span>
