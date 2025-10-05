@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 const Footer = () => {
   return (
     <footer className="bg-gray-900">
-      <div className="container mx-auto px-6 py-12">
+      <div className="container mx-auto px-6 py-6">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
@@ -85,10 +85,10 @@ const Footer = () => {
                 (905) 329-2971
               </a>
               <a
-                href="mailto:hernandezreno2017@hotmail.com"
+                href="mailto:contact@hernandezreno.ca"
                 className="flex items-center text-gray-300 hover:text-white transition-colors duration-200 break-all"
               >
-                hernandezreno2017@hotmail.com
+                contact@hernandezreno.ca
               </a>
               <ul className="flex items-center gap-3">
                   <li><a

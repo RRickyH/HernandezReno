@@ -7,13 +7,11 @@ import Gallery from './pages/Gallery'
 function App() {
   return (
     <BrowserRouter>
-        <MainLayout>
-          <Routes>
+        <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/about" element={<About />} />
-          </Routes>
-        </MainLayout>
+        </Routes>
     </BrowserRouter>
   )
 }
