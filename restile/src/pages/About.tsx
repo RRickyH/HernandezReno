@@ -110,7 +110,7 @@ export default function About() {
               <ul className="flex flex-col gap-12 items-start justify-start text-xl">
                 <li>
                   <a
-                    href=":tel:+19053292971"
+                    href="tel:+19053292971"
                     className="flex gap-4 items-center justify-center hover:opacity-90 transition-all"
                   >
                     <svg
