@@ -7,8 +7,8 @@ export default function Home() {
       <header className="sticky top-0 z-50">
         <NavBar
           items={[
-            { text: "About", href: "about" },
-            { text: "Gallery", href: "gallery" },
+            { text: "About", href: "/about" },
+            { text: "Gallery", href: "/gallery" },
           ]}
           button={{ text: "Contact", href: "/contact" }}
         />
