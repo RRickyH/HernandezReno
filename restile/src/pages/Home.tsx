@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
-import NavBar from "../components/navigation/NavBar.tsx";
-import Footer from "../components/navigation/Footer.tsx";
+import NavBar from "src/components/navigation/NavBar.tsx";
+import Footer from "src/components/navigation/Footer.tsx";
 
 function Home () {
     return (
@@ -12,7 +12,7 @@ function Home () {
                 ]} button={{"text": "Contact", "href": "/contact"}}/>
             </header>
             <main className="flex-grow">
-                {/* Hero Section */}
+                {/* Hero section */}
                 <section className="relative h-[50vh] items-center justify-start w-full flex">
                     <div className="absolute inset-0 bg-[url(/kitchen_fallback.jpg)] bg-cover bg-center bg-no-repeat">
                         <div className="absolute inset-0 bg-black/60"></div>
@@ -23,12 +23,20 @@ function Home () {
                             <span className="text-5xl text-amber-400 font-bold text-shadow-lg/20">Reimagined.</span>
                         </div>
                         <p className="text-lg text-shadow-lg">Breathing new life into your spaces with hand-crafted custom carpentry and decades
-                            of expertise. Find out how we can breathe new life into your space today.</p>
+                            of expertise. Find out how we can transform your space today.</p>
                         <div className="flex gap-4">
                             <NavLink to="/contact" className="bg-gray-50 rounded-lg hover:scale-105 transition-all text-gray-800 font-bold px-4 py-2">Find Out How</NavLink>
                             <NavLink to="/gallery" className="bg-gray-800/40 rounded-lg border-2 border-gray-50 hover:scale-105 transition-all px-4 py-2">Past Projects</NavLink>
                         </div>
                     </div>
+                </section>
+                {/* Intro section */}
+                <section>
+
+                </section>
+                {/* Contact section */}
+                <section>
+
                 </section>
             </main>
             <Footer />
