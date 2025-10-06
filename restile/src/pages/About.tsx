@@ -70,7 +70,7 @@ export default function About() {
           <h1 className="text-6xl text-gray-50 font-bold p-8">People</h1>
           <PersonCard
             name="Jesus Hernandez"
-            image_src="/jesus_hernandez.jpg"
+            image_src="/jesus_hernandez.png"
             role="Founder & Business Owner"
             bio="Description of Jesus Hernandez. Information about his backstory, expertise, and other details. Fun facts perhaps and goals. What really makes him special—why we should trust his knowledge and skills. This is perhaps the most important part of the about page since this business is on the personal side. Your character shows through in your work."
           />
