@@ -7,8 +7,10 @@ COPY package.json .
 
 # Install dependencies and copy application code into the working directory.
 RUN npm install
+RUN npm i -g serve
 COPY . .
 
 EXPOSE 5173
 
-CMD [ "npm", "run", "dev" ]
+RUN npm run build
+CMD ["serve", "-s", "dist", "-l", "5173"]
