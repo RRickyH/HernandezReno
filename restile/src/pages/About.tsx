@@ -71,8 +71,10 @@ export default function About() {
           <PersonCard
             name="Jesus Hernandez"
             image_src="/jesus_hernandez.png"
-            role="Founder & Business Owner"
-            bio="Description of Jesus Hernandez. Information about his backstory, expertise, and other details. Fun facts perhaps and goals. What really makes him special—why we should trust his knowledge and skills. This is perhaps the most important part of the about page since this business is on the personal side. Your character shows through in your work."
+            role="Owner, Renovation Specialist"
+            bio="With over a decade of experience in residential and commercial renovations across the Niagara region, Jesus is a trusted name in quality craftsmanship and professional service. As the owner of his renovation business, he brings a deep expertise in finish carpentry and space planning, with a portfolio that includes the installation of hundreds of kitchens and countless beautifully finished interiors.
+                Jesus is known for his precision, attention to detail, and commitment to excellence—his finishing work consistently exceeds expectations. Clients value not only his skill but also his reliability, cleanliness, and respectful presence in their homes. A devoted family man who lives with integrity, Jesus runs his business with the same values he lives by: honesty, quality, and care.
+                Whether you're planning a full renovation or a custom upgrade, Jesus brings experience, craftsmanship, and a level of professionalism that makes him someone you’ll be glad to have on your project—and in your home."
           />
           <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 card-row">
             <li>
@@ -80,23 +82,9 @@ export default function About() {
                 name="Jennifer Hernández"
                 image_src="/jennifer_hernandez.jpg"
                 role="Customer Success & Design"
-                bio="Also an important story to tell. Let’s talk about why you are here and what you have to offer. You are there standing beside the installation team and helping clients navigate the renovation world. While they are out there demoing and installing, you are going to be the liason between potential conflicts and help ensure the client is successful and happy. You know them inside and out."
-              />
-            </li>
-            <li>
-              <PersonCard
-                name="Lead Henchman"
-                image_src="/zach_hernandez.jpg"
-                role="Lead Henchman"
-                bio="The muscle that gets things done I guess... I don’t really know how many hench-people he has but there must be many. We’ll see how things end up going, but this one is worth including if you want to bulk up what we have. I guess there’s not much else to say. The clients will likely be interacting with these people...or at least their toilets will so they should be aware of them."
-              />
-            </li>
-            <li>
-              <PersonCard
-                name=""
-                image_src="/Hernandez_renovations_sticker.svg"
-                role=""
-                bio=""
+                bio="Jennifer Hernandez is a seasoned Customer Experience and Design Consultant specializing in kitchen and cabinetry renovations. With a strong eye for detail and a passion for delivering exceptional client experiences, Jennifer combines technical expertise with a customer-first approach to guide homeowners through every stage of their renovation journey.
+She creates precise 3D renderings and production drawings that bring design concepts to life, helping clients visualize their spaces before work begins. Jennifer also assists in selecting finishes, colours, and materials, ensuring each project reflects the client’s personal style while maintaining functionality and quality.
+Known for her friendly and professional demeanor, Jennifer is deeply committed to getting every detail right. She coordinates all aspects of the renovation process, seamlessly bridging the gap between design and execution. Her extensive experience—both in client-facing roles and behind the scenes—has contributed to the success of countless renovation projects."
               />
             </li>
           </ul>

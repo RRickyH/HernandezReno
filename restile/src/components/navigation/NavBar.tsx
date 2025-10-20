@@ -14,7 +14,7 @@ export default function NavBar({ items, button }: NavBarProps) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <nav className="z-50 relative flex items-center justify-between w-full bg-gray-900 shadow-md px-6 py-2">
+      <nav className="z-50 relative flex items-center justify-between w-full bg-gray-900 shadow-md/20 px-6 py-2">
         <NavLink to="/" className="flex items-center justify-between gap-4">
           <img src="HR_logo.svg" alt="logo image" className="h-12 w-auto" />
           <span className="text-xl md:text-4xl text-gray-50 font-bold">
