@@ -1,7 +1,7 @@
 import NavBar from "src/components/navigation/NavBar.tsx";
 import Footer from "src/components/navigation/Footer.tsx";
 
-export default function Home() {
+export default function Contact() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-50">
