@@ -99,7 +99,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="/quote"
+                  href="/contact"
                   className="text-gray-300 hover:text-white transition-colors duration-200"
                 >
                   Free Quote
