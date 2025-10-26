@@ -10,6 +10,7 @@ export default function ContactCard() {
           <input
             placeholder="your-email@example.com"
             className="w-full bg-gray-100 border-gray-400/40 border-2 rounded-lg p-1"
+            required
           ></input>
         </div>
         <div className="flex flex-col items-stretch justify-start w-full gap-1">
@@ -24,6 +25,7 @@ export default function ContactCard() {
           <input
             placeholder="Message description"
             className="w-full bg-gray-100 border-gray-400/40 border-2 rounded-lg p-1"
+            required
           ></input>
         </div>
         <div className="flex flex-col items-start justify-start w-full gap-1">
@@ -32,9 +34,13 @@ export default function ContactCard() {
             rows={4}
             placeholder="Your message..."
             className="w-full bg-gray-100 border-gray-400/40 border-2 rounded-lg p-1"
+            required
           ></textarea>
         </div>
-        <button className="rounded-lg bg-gray-800 text-gray-50 font-bold text-lg px-4 py-2">
+        <button
+          type="submit"
+          className="rounded-lg bg-gray-800 text-gray-50 font-bold text-lg px-4 py-2"
+        >
           Send
         </button>
       </form>
