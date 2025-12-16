@@ -16,11 +16,11 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: example
-      POSTGRES_DB: test_db
+      POSTGRES_USER: bluesteel
+      POSTGRES_PASSWORD: bluesteel_pw
+      POSTGRES_DB: bluesteel_db
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - db:/var/lib/postgresql
     restart: always
 
   pgadmin:
@@ -36,4 +36,4 @@ services:
     restart: unless-stopped
 
 volumes:
-  pgdata:
+  db:
