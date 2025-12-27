@@ -15,7 +15,7 @@ type Handler struct {
 	ProjectService projectservice.Service
 }
 
-func New(service projectservice.Service) Handler {
+func NewHandler(service projectservice.Service) Handler {
 	return Handler{service}
 }
 

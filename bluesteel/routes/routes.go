@@ -8,7 +8,7 @@ import (
 )
 
 func RegisterRoutes(r *gin.Engine, db *gorm.DB) {
-	handler := handlers.New(projectservice.NewGormService(db))
+	handler := handlers.NewHandler(projectservice.NewGormService(db))
 	api := r.Group("/api")
 	api.GET("/projects", handler.ListProjects)
 	api.POST("/projects", handler.AddProject)
