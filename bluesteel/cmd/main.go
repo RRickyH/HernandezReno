@@ -23,6 +23,7 @@ func main() {
 		&models.Project{},
 		&models.Image{},
 		&models.Tag{},
+		&models.SiteSettings{},
 	)
 	if err != nil {
 		slog.Error("error running migrations: ", err)

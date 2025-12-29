@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/RRickyH/HernandezReno/bluesteel/models"
 	"github.com/RRickyH/HernandezReno/bluesteel/services/projectservice"
+	"github.com/RRickyH/HernandezReno/bluesteel/services/siteservice"
 	"github.com/gin-gonic/gin"
 	"log/slog"
 	"net/http"
@@ -13,10 +14,11 @@ import (
 
 type Handler struct {
 	ProjectService projectservice.Service
+	SiteService    siteservice.Service
 }
 
-func New(service projectservice.Service) Handler {
-	return Handler{service}
+func New(projectService projectservice.Service, siteService siteservice.Service) Handler {
+	return Handler{projectService, siteService}
 }
 
 func (h *Handler) ListProjects(c *gin.Context) {
@@ -98,4 +100,50 @@ func (h *Handler) UpdateProject(c *gin.Context) {
 	}
 
 	c.Status(http.StatusNoContent)
+}
+
+func (h *Handler) GetProjectImages(c *gin.Context) {
+	// Get and convert the project id.
+	projectIDstr := c.Param("id")
+	projectIDint, err := strconv.Atoi(projectIDstr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "Invalid ProjectID provided"})
+		return
+	}
+	projectID := models.ProjectID(projectIDint)
+	images, err := h.ProjectService.GetImages(projectID)
+	if err != nil {
+		if errors.Is(err, projectservice.ErrProjectNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{"status": "invalid ID; project not found..."})
+			return
+		}
+		slog.Error("error getting images from project", "error", err)
+		c.Status(http.StatusInternalServerError)
+		return
+	}
+	c.JSON(http.StatusOK, images)
+}
+
+// GetSiteSettings is the handler function for fetching site configuration settings from the site service.
+func (h *Handler) GetSiteSettings(c *gin.Context) {
+	siteService, err := h.SiteService.Get()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"status": "unable to get site settings"})
+	}
+	c.JSON(http.StatusOK, siteService)
+}
+
+// UpdateSiteSettings is the handler function for updating site configuration settings.
+func (h *Handler) UpdateSiteSettings(c *gin.Context) {
+	// Bind the settings as a DTO struct.
+	var siteSettingsDTO models.SiteSettingsDTO
+	if err := c.ShouldBindJSON(&siteSettingsDTO); err != nil {
+		slog.Error("Failed to bind JSON Body", "error", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	err := h.SiteService.Update(siteSettingsDTO)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "unable to update settings"})
+	}
 }

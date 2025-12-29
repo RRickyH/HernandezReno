@@ -14,10 +14,12 @@ type GormService struct {
 	DB *gorm.DB
 }
 
+// NewGormService initializes and returns a new GormService struct using the given DB.
 func NewGormService(db *gorm.DB) Service {
 	return &GormService{db}
 }
 
+// GetAll fetches all projects from the database and returns them in a projectDTO slice.
 func (g *GormService) GetAll() ([]models.ProjectDTO, error) {
 	var projects []models.Project
 	result := g.DB.Find(&projects)
@@ -60,6 +62,7 @@ func (g *GormService) GetAll() ([]models.ProjectDTO, error) {
 	return projectsDTO, nil
 }
 
+// Add saves the given projectDTO as a new project in the database.
 func (g *GormService) Add(projectDTO *models.ProjectDTO) (models.ProjectID, error) {
 	// Map the projectDTO to a gorm model and save this to the database.
 	project := models.Project{
@@ -87,6 +90,7 @@ func (g *GormService) Add(projectDTO *models.ProjectDTO) (models.ProjectID, erro
 	return project.ID, nil
 }
 
+// Delete removes the project corresponding to the given ID.
 func (g *GormService) Delete(id models.ProjectID) error {
 	var project models.Project
 	result := g.DB.First(&project, id)
@@ -104,6 +108,7 @@ func (g *GormService) Delete(id models.ProjectID) error {
 	return nil
 }
 
+// Update modifies project details to match the projectDTO for the project with the corresponding ID.
 func (g *GormService) Update(id models.ProjectID, projectDTO *models.ProjectDTO) error {
 	// Get the project.
 	var project models.Project
@@ -165,6 +170,30 @@ func (g *GormService) Update(id models.ProjectID, projectDTO *models.ProjectDTO)
 	return nil
 }
 
+// GetImages returns a slice of the image models associated with a given project.
+func (g *GormService) GetImages(id models.ProjectID) ([]string, error) {
+	// Fetch the project from the database.
+	var project models.Project
+	result := g.DB.Preload("Images").First(&project, id)
+	if result.Error != nil {
+		if errors.As(result.Error, &gorm.ErrRecordNotFound) {
+			slog.Error("invalid project id; project does not exist")
+			return nil, ErrProjectNotFound
+		} else {
+			slog.Error("error fetching the project from the database", result.Error.Error())
+			return nil, result.Error
+		}
+	}
+
+	var urls []string
+	for _, image := range project.Images {
+		urls = append(urls, image.URL)
+	}
+
+	return urls, nil
+}
+
+// linkImages is a helper method that saves given images in the database and links them to the given project.
 func (g *GormService) linkImages(project *models.Project, images []string) error {
 	// Upload images and link them to the new project.
 	for _, url := range images {
@@ -198,6 +227,7 @@ func (g *GormService) linkImages(project *models.Project, images []string) error
 	return nil
 }
 
+// linkTags is a helper method that saves given tags in the database and links them to the given project.
 func (g *GormService) linkTags(project *models.Project, tags []string) error {
 	for _, newTag := range tags {
 		tag := models.Tag{
