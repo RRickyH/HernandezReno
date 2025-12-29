@@ -9,3 +9,12 @@ type ProjectDTO struct {
 	Tags        []string   `json:"tags" binding:"dive,max=30"`
 	Description *string    `json:"description" binding:"max=300"`
 }
+
+type SiteSettingsDTO struct {
+	TitleText        string `json:"titleText"`
+	AccentText       string `json:"accentText"`
+	TagLine          string `json:"tagLine"`
+	HeroImageURL     string `json:"heroImageURL"`
+	AboutDescription string `json:"aboutDescription"`
+	AboutImageURL    string `json:"AboutImageURL"`
+}
