@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/RRickyH/HernandezReno/bluesteel/handlers"
+	"github.com/RRickyH/HernandezReno/bluesteel/middleware"
 	"github.com/RRickyH/HernandezReno/bluesteel/services/personservice"
 	"github.com/RRickyH/HernandezReno/bluesteel/services/projectservice"
 	"github.com/RRickyH/HernandezReno/bluesteel/services/siteservice"
@@ -13,21 +14,32 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) {
 	handler := handlers.New(projectservice.NewGormService(db), personservice.NewGormService(db), siteservice.NewGormService(db))
 	api := r.Group("/api")
 
-	// Project Endpoints
+	// Project Endpoints.
 	api.GET("/projects", handler.ListProjects)
-	api.POST("/projects", handler.AddProject)
-	api.DELETE("/projects/:id", handler.DeleteProject)
-	api.PUT("/projects/:id", handler.UpdateProject)
 	api.GET("/projects/:id/images", handler.GetProjectImages)
 
-	// Site Setting Endpoints
+	// Site Setting Endpoints.
 	api.GET("/settings", handler.GetSiteSettings)
-	api.PUT("/settings", handler.UpdateSiteSettings)
 
-	// Person Endpoints
+	// Person Endpoints.
 	api.GET("/person", handler.GetAllPeople)
 	api.GET("/person/:id", handler.GetPerson)
-	api.POST("/person", handler.AddPerson)
-	api.PUT("/person/:id", handler.UpdatePerson)
-	api.DELETE("/person/:id", handler.DeletePerson)
+
+	// Login Endpoints.
+	r.POST("/login", handler.Login)
+
+	// Protected Endpoints.
+	protected := api.Group("/")
+	protected.Use(middleware.AuthRequired)
+	{
+		protected.POST("/projects", handler.AddProject)
+		protected.DELETE("/projects/:id", handler.DeleteProject)
+		protected.PUT("/projects/:id", handler.UpdateProject)
+
+		protected.PUT("/settings", handler.UpdateSiteSettings)
+
+		protected.POST("/person", handler.AddPerson)
+		protected.PUT("/person/:id", handler.UpdatePerson)
+		protected.DELETE("/person/:id", handler.DeletePerson)
+	}
 }
