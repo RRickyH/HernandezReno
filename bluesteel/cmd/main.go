@@ -6,7 +6,6 @@ import (
 	"github.com/RRickyH/HernandezReno/bluesteel/routes"
 	"github.com/gin-gonic/gin"
 	"log/slog"
-	"net/http"
 )
 
 func main() {
@@ -24,6 +23,7 @@ func main() {
 		&models.Image{},
 		&models.Tag{},
 		&models.SiteSettings{},
+		&models.Person{},
 	)
 	if err != nil {
 		slog.Error("error running migrations: ", err)
@@ -32,10 +32,5 @@ func main() {
 
 	router := gin.Default()
 	routes.RegisterRoutes(router, db)
-	router.GET("/test", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "poop",
-		})
-	})
 	router.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

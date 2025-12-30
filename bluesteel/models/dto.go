@@ -18,3 +18,10 @@ type SiteSettingsDTO struct {
 	AboutDescription string `json:"aboutDescription"`
 	AboutImageURL    string `json:"AboutImageURL"`
 }
+
+type PersonDTO struct {
+	Name        string `json:"name"`
+	Role        string `json:"role"`
+	PhotoURL    string `json:"photoURL"`
+	Description string `json:"description"`
+}
