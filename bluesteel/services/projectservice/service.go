@@ -8,13 +8,11 @@ import (
 type Service interface {
 	GetAll() ([]models.ProjectDTO, error)
 	Add(projectDTO *models.ProjectDTO) (models.ProjectID, error)
-	Delete(models.ProjectID) error
+	Delete(id models.ProjectID) error
 	Update(id models.ProjectID, projectDTO *models.ProjectDTO) error
 	GetImages(id models.ProjectID) ([]string, error)
 }
 
 var (
 	ErrProjectNotFound = errors.New("project not found")
-	ErrProjectExists   = errors.New("project already exists")
-	ErrDuplicateImage  = errors.New("image already exists")
 )
