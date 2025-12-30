@@ -3,6 +3,7 @@ package siteservice
 import (
 	"errors"
 	"github.com/RRickyH/HernandezReno/bluesteel/models"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"log/slog"
 )
@@ -17,7 +18,7 @@ func NewGormService(db *gorm.DB) Service {
 }
 
 // Get fetches the site configurations or creates a new record if one does not exist.
-func (g *GormService) Get() (models.SiteSettingsDTO, error) {
+func (g *GormService) Get() (*models.SiteSettingsDTO, error) {
 	var siteSettings models.SiteSettings
 	result := g.DB.First(&siteSettings)
 	if result.Error != nil {
@@ -28,19 +29,19 @@ func (g *GormService) Get() (models.SiteSettingsDTO, error) {
 			result = g.DB.Create(&siteSettings)
 			if result.Error != nil {
 				slog.Error("error arose when creating default site settings", "error", result.Error.Error())
-				return models.SiteSettingsDTO{}, result.Error
+				return nil, result.Error
 			}
 			return models.ToSiteSettingsDTO(&siteSettings), nil
 		}
 		slog.Error("unknown error occurred when attempting to fetch site settings", "error", result.Error)
-		return models.SiteSettingsDTO{}, result.Error
+		return nil, result.Error
 	}
 	// Site settings fetched successfully.
 	return models.ToSiteSettingsDTO(&siteSettings), nil
 }
 
 // Update modifies the site configuration with the data provided in the DTO.
-func (g *GormService) Update(siteSettingsDTO models.SiteSettingsDTO) error {
+func (g *GormService) Update(siteSettingsDTO *models.SiteSettingsDTO) error {
 	var siteSettings models.SiteSettings
 	result := g.DB.First(&siteSettings)
 	if result.Error != nil {
@@ -76,5 +77,27 @@ func (g *GormService) Update(siteSettingsDTO models.SiteSettingsDTO) error {
 	}
 
 	// Successfully updated settings.
+	return nil
+}
+
+func (g *GormService) ValidateCredentials(credentials *models.CredentialsDTO) error {
+	// Fetch admin user from the database and check username.
+	var admin models.Admin
+	if result := g.DB.Where("user_name = ?", credentials.UserName).First(&admin); result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			slog.Info("no admin with username found", "username", credentials.UserName)
+			return ErrInvalidCredentials
+		} else {
+			slog.Info("unable to fetch admin from database", "error", result.Error.Error())
+			return result.Error
+		}
+	}
+	// Check password.
+	if err := bcrypt.CompareHashAndPassword([]byte(admin.Password), []byte(credentials.Password)); err != nil {
+		slog.Info("admin login failed; invalid password", "username", admin.UserName)
+		return ErrInvalidCredentials
+	}
+
+	slog.Info("correct credentials provided")
 	return nil
 }

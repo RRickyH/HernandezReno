@@ -7,10 +7,10 @@ type PersonID uint
 type Person struct {
 	gorm.Model
 	ID          PersonID `gorm:"primaryKey"`
-	Name        string   `gorm:"not null" json:"name"`
-	Role        string   `gorm:"not null" json:"role"`
-	PhotoURL    string   `json:"photoURL"`
-	Description string   `json:"description"`
+	Name        string   `gorm:"size:50;not null" json:"name"`
+	Role        string   `gorm:"size:50;not null" json:"role"`
+	PhotoURL    string   `gorm:"size:500" json:"photoURL"`
+	Description string   `gorm:"type:text" json:"description"`
 }
 
 func ToPersonDTO(person *Person) PersonDTO {

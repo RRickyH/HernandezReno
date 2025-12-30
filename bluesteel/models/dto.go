@@ -25,3 +25,8 @@ type PersonDTO struct {
 	PhotoURL    string `json:"photoURL"`
 	Description string `json:"description"`
 }
+
+type CredentialsDTO struct {
+	UserName string `json:"userName"`
+	Password string `json:"password"`
+}

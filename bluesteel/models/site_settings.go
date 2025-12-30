@@ -6,12 +6,12 @@ import (
 
 type SiteSettings struct {
 	gorm.Model
-	TitleText        string `gorm:"type:text" json:"titleText"`
-	AccentText       string `gorm:"type:text" json:"accentText"`
-	TagLine          string `gorm:"type:text" json:"tagLine"`
-	HeroImageURL     string `gorm:"type:text" json:"heroImageURL"`
+	TitleText        string `gorm:"size:50" json:"titleText"`
+	AccentText       string `gorm:"size:50" json:"accentText"`
+	TagLine          string `gorm:"size:300" json:"tagLine"`
+	HeroImageURL     string `gorm:"size:500" json:"heroImageURL"`
 	AboutDescription string `gorm:"type:text" json:"aboutDescription"`
-	AboutImageURL    string `gorm:"type:text" json:"AboutImageURL"`
+	AboutImageURL    string `gorm:"size:500" json:"AboutImageURL"`
 }
 
 func DefaultSiteSettings() SiteSettings {
@@ -25,8 +25,8 @@ func DefaultSiteSettings() SiteSettings {
 	}
 }
 
-func ToSiteSettingsDTO(siteSettings *SiteSettings) SiteSettingsDTO {
-	return SiteSettingsDTO{
+func ToSiteSettingsDTO(siteSettings *SiteSettings) *SiteSettingsDTO {
+	return &SiteSettingsDTO{
 		TitleText:        siteSettings.TitleText,
 		AccentText:       siteSettings.AccentText,
 		TagLine:          siteSettings.TagLine,
