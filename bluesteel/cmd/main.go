@@ -7,6 +7,7 @@ import (
 	"github.com/RRickyH/HernandezReno/bluesteel/services"
 	"github.com/gin-gonic/gin"
 	"log/slog"
+	"os"
 )
 
 func main() {
@@ -14,7 +15,7 @@ func main() {
 	db, err := database.Init()
 	if err != nil {
 		slog.Error("error initializing database: ", err)
-		panic(err)
+		os.Exit(1)
 	}
 	slog.Info("successfully connected to the database")
 
@@ -29,7 +30,7 @@ func main() {
 	)
 	if err != nil {
 		slog.Error("error running migrations: ", err)
-		panic(err)
+		os.Exit(1)
 	}
 	// Add a default admin user if one does not exist.
 	models.EnsureAdmin(db)

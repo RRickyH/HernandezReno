@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"github.com/RRickyH/HernandezReno/bluesteel/models"
 	"github.com/joho/godotenv"
 	"log/slog"
@@ -18,6 +17,8 @@ type Configurations struct {
 	DBName       string
 	DBPort       string
 	DBSSLMode    string
+	S3Bucket     string
+	AWSRegion    string
 	SiteSettings *models.SiteSettingsDTO
 }
 
@@ -38,13 +39,17 @@ func LoadConfig(config *Configurations) {
 	config.DBName = LoadFromEnv("DB_NAME")
 	config.DBPort = LoadFromEnv("DB_PORT")
 	config.DBSSLMode = LoadFromEnv("DB_SSLMODE")
+
+	// Load AWS Bucket
+	config.S3Bucket = LoadFromEnv("S3_BUCKET_NAME")
+	config.AWSRegion = LoadFromEnv("AWS_REGION")
 }
 
 func LoadFromEnv(key string) string {
 	val := os.Getenv(key)
 	if val == "" {
 		slog.Error("missing environment variable", "key", key)
-		panic(fmt.Sprintf("missing environment variable: %v", key))
+		os.Exit(1)
 	}
 	return val
 }
