@@ -53,6 +53,10 @@ func (h *Handler) AddPerson(c *gin.Context) {
 
 	id, err := h.PersonService.Add(&person)
 	if err != nil {
+		if errors.Is(err, personservice.ErrFieldNotProvided) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "the name and role must be provided"})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "an unknown error occurred"})
 		return
 	}

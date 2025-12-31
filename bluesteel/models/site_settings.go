@@ -27,11 +27,11 @@ func DefaultSiteSettings() SiteSettings {
 
 func ToSiteSettingsDTO(siteSettings *SiteSettings) *SiteSettingsDTO {
 	return &SiteSettingsDTO{
-		TitleText:        siteSettings.TitleText,
-		AccentText:       siteSettings.AccentText,
-		TagLine:          siteSettings.TagLine,
-		HeroImageURL:     siteSettings.HeroImageURL,
-		AboutDescription: siteSettings.AboutDescription,
-		AboutImageURL:    siteSettings.AboutImageURL,
+		TitleText:        &siteSettings.TitleText,
+		AccentText:       &siteSettings.AccentText,
+		TagLine:          &siteSettings.TagLine,
+		HeroImageURL:     &siteSettings.HeroImageURL,
+		AboutDescription: &siteSettings.AboutDescription,
+		AboutImageURL:    &siteSettings.AboutImageURL,
 	}
 }
