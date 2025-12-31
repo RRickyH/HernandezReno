@@ -6,12 +6,13 @@ import (
 	"github.com/RRickyH/HernandezReno/bluesteel/services/personservice"
 	"github.com/RRickyH/HernandezReno/bluesteel/services/projectservice"
 	"github.com/RRickyH/HernandezReno/bluesteel/services/siteservice"
+	"github.com/RRickyH/HernandezReno/bluesteel/services/uploadservice"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
 func RegisterRoutes(r *gin.Engine, db *gorm.DB) {
-	handler := handlers.New(projectservice.NewGormService(db), personservice.NewGormService(db), siteservice.NewGormService(db))
+	handler := handlers.New(projectservice.NewGormService(db), personservice.NewGormService(db), siteservice.NewGormService(db), uploadservice.NewS3Service())
 	api := r.Group("/api")
 
 	// Project Endpoints.
@@ -34,12 +35,14 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) {
 	{
 		protected.POST("/projects", handler.AddProject)
 		protected.DELETE("/projects/:id", handler.DeleteProject)
-		protected.PUT("/projects/:id", handler.UpdateProject)
+		protected.PATCH("/projects/:id", handler.UpdateProject)
 
 		protected.PUT("/settings", handler.UpdateSiteSettings)
 
 		protected.POST("/person", handler.AddPerson)
-		protected.PUT("/person/:id", handler.UpdatePerson)
+		protected.PATCH("/person/:id", handler.UpdatePerson)
 		protected.DELETE("/person/:id", handler.DeletePerson)
+
+		protected.POST("/uploader", handler.GetPresignedURL)
 	}
 }

@@ -38,7 +38,7 @@ func (g *GormService) GetAll() ([]models.ProjectDTO, error) {
 		var images []string
 		if project.Images != nil {
 			for _, image := range project.Images {
-				images = append(images, image.URL)
+				images = append(images, image.Key)
 			}
 		}
 
@@ -187,7 +187,7 @@ func (g *GormService) GetImages(id models.ProjectID) ([]string, error) {
 
 	var urls []string
 	for _, image := range project.Images {
-		urls = append(urls, image.URL)
+		urls = append(urls, image.Key)
 	}
 
 	return urls, nil
@@ -198,14 +198,14 @@ func (g *GormService) linkImages(project *models.Project, images []string) error
 	// Upload images and link them to the new project.
 	for _, url := range images {
 		image := models.Image{
-			URL: url,
+			Key: url,
 		}
 		result := g.DB.Create(&image)
 		if result.Error != nil {
 			// If a duplicate image is uploaded, link the project to the original image.
 			var pgErr *pgconn.PgError
 			if errors.As(result.Error, &pgErr) && pgErr.Code == UniqueViolation {
-				if result := g.DB.Where("url = ?", image.URL).First(&image); result.Error != nil {
+				if result := g.DB.Where("url = ?", image.Key).First(&image); result.Error != nil {
 					slog.Error("Failed to find duplicated image", "error", result.Error.Error())
 				} else {
 					slog.Info("Found duplicated image", "ImageID", image.ID)
