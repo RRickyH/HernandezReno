@@ -3,27 +3,27 @@ package models
 import "time"
 
 type ProjectDTO struct {
-	Title       *string    `json:"title" binding:"max=100"`
-	Images      *[]string  `json:"images" binding:"dive,max=500"`
+	Title       *string    `json:"title" binding:"omitempty,max=150"`
+	ImageKeys   []string   `json:"imageKeys" binding:"omitempty,dive,max=500"`
 	Date        *time.Time `json:"date"`
-	Tags        *[]string  `json:"tags" binding:"dive,max=30"`
-	Description *string    `json:"description" binding:"max=300"`
+	Tags        []string   `json:"tags" binding:"omitempty,dive,max=30"`
+	Description *string    `json:"description" binding:"omitempty,max=300"`
 }
 
 type SiteSettingsDTO struct {
-	TitleText        *string `json:"titleText"`
-	AccentText       *string `json:"accentText"`
-	TagLine          *string `json:"tagLine"`
-	HeroImageURL     *string `json:"heroImageURL"`
+	TitleText        *string `json:"titleText" binding:"omitempty,max=50"`
+	AccentText       *string `json:"accentText" binding:"omitempty,max=50"`
+	TagLine          *string `json:"tagLine" binding:"omitempty,max=300"`
+	HeroImageURL     *string `json:"heroImageURL" binding:"omitempty,max=500"`
 	AboutDescription *string `json:"aboutDescription"`
-	AboutImageURL    *string `json:"AboutImageURL"`
+	AboutImageURL    *string `json:"AboutImageURL" binding:"omitempty,max=500"`
 }
 
 type PersonDTO struct {
-	Name        *string `json:"name"`
-	Role        *string `json:"role"`
-	PhotoURL    *string `json:"photoURL"`
-	Description *string `json:"description"`
+	Name        *string `json:"name" binding:"omitempty,max=50"`
+	Role        *string `json:"role" binding:"omitempty,max=50"`
+	PhotoURL    *string `json:"photoURL" binding:"omitempty,max=500"`
+	Description *string `json:"description" binding:"omitempty"`
 }
 
 type CredentialsDTO struct {

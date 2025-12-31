@@ -14,5 +14,6 @@ type Service interface {
 }
 
 var (
-	ErrPersonNotFound = errors.New("person not found")
+	ErrPersonNotFound   = errors.New("person not found")
+	ErrFieldNotProvided = errors.New("field not provided")
 )

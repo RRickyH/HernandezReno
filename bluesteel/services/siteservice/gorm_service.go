@@ -50,23 +50,23 @@ func (g *GormService) Update(siteSettingsDTO *models.SiteSettingsDTO) error {
 	}
 
 	// Update settings if they are provided.
-	if siteSettingsDTO.TitleText != "" {
-		siteSettings.TitleText = siteSettingsDTO.TitleText
+	if siteSettingsDTO.TitleText != nil {
+		siteSettings.TitleText = *siteSettingsDTO.TitleText
 	}
-	if siteSettingsDTO.AccentText != "" {
-		siteSettings.AccentText = siteSettingsDTO.AccentText
+	if siteSettingsDTO.AccentText != nil {
+		siteSettings.AccentText = *siteSettingsDTO.AccentText
 	}
-	if siteSettingsDTO.TagLine != "" {
-		siteSettings.TagLine = siteSettingsDTO.TagLine
+	if siteSettingsDTO.TagLine != nil {
+		siteSettings.TagLine = *siteSettingsDTO.TagLine
 	}
-	if siteSettingsDTO.HeroImageURL != "" {
-		siteSettings.HeroImageURL = siteSettingsDTO.HeroImageURL
+	if siteSettingsDTO.HeroImageURL != nil {
+		siteSettings.HeroImageURL = *siteSettingsDTO.HeroImageURL
 	}
-	if siteSettingsDTO.AboutDescription != "" {
-		siteSettings.AboutDescription = siteSettingsDTO.AboutDescription
+	if siteSettingsDTO.AboutDescription != nil {
+		siteSettings.AboutDescription = *siteSettingsDTO.AboutDescription
 	}
-	if siteSettingsDTO.AboutImageURL != "" {
-		siteSettings.AboutImageURL = siteSettingsDTO.AboutImageURL
+	if siteSettingsDTO.AboutImageURL != nil {
+		siteSettings.AboutImageURL = *siteSettingsDTO.AboutImageURL
 	}
 
 	// Save the model in the database.

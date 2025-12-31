@@ -27,7 +27,7 @@ func (g GormService) GetAll() ([]models.PersonDTO, error) {
 	var peopleDTO []models.PersonDTO
 	for _, person := range people {
 		personDTO := models.ToPersonDTO(&person)
-		peopleDTO = append(peopleDTO, personDTO)
+		peopleDTO = append(peopleDTO, *personDTO)
 	}
 	return peopleDTO, nil
 }
@@ -43,15 +43,25 @@ func (g GormService) Get(id models.PersonID) (models.PersonDTO, error) {
 		slog.Error("error getting person from the database", "error", result.Error)
 		return models.PersonDTO{}, result.Error
 	}
-	return models.ToPersonDTO(&person), nil
+	return *models.ToPersonDTO(&person), nil
 }
 
 // Add saves the personDTO into the database and returns the person's ID.
 func (g GormService) Add(personDTO *models.PersonDTO) (models.PersonID, error) {
+	// Check that the required fields were provided.
+	if personDTO.Name == nil {
+		slog.Error("no name was provided when adding a person", "person", personDTO)
+		return models.PersonID(0), ErrFieldNotProvided
+	}
+	if personDTO.Role == nil {
+		slog.Error("no role was provided when adding a person", "person", personDTO)
+		return models.PersonID(0), ErrFieldNotProvided
+	}
+
 	// Map the DTO to a gorm model.
 	person := models.Person{
-		Name:        personDTO.Name,
-		Role:        personDTO.Role,
+		Name:        *personDTO.Name,
+		Role:        *personDTO.Role,
 		PhotoURL:    personDTO.PhotoURL,
 		Description: personDTO.Description,
 	}
@@ -99,16 +109,16 @@ func (g GormService) Update(id models.PersonID, personDTO *models.PersonDTO) err
 	}
 
 	// Update fields if they are provided.
-	if personDTO.Name != "" {
-		person.Name = personDTO.Name
+	if personDTO.Name != nil {
+		person.Name = *personDTO.Name
 	}
-	if personDTO.Role != "" {
-		person.Role = personDTO.Role
+	if personDTO.Role != nil {
+		person.Role = *personDTO.Role
 	}
-	if personDTO.PhotoURL != "" {
+	if personDTO.PhotoURL != nil {
 		person.PhotoURL = personDTO.PhotoURL
 	}
-	if personDTO.Description != "" {
+	if personDTO.Description != nil {
 		person.Description = personDTO.Description
 	}
 
