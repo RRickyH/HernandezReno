@@ -10,16 +10,19 @@ import (
 var Config Configurations
 
 type Configurations struct {
-	JWTSecretKey string
-	DBHost       string
-	DBUser       string
-	DBPassword   string
-	DBName       string
-	DBPort       string
-	DBSSLMode    string
-	S3Bucket     string
-	AWSRegion    string
-	SiteSettings *models.SiteSettingsDTO
+	JWTSecretKey     string
+	DBHost           string
+	DBUser           string
+	DBPassword       string
+	DBName           string
+	DBPort           string
+	DBSSLMode        string
+	S3Bucket         string
+	AWSRegion        string
+	BaseURL          string
+	BaseURLSubdomain string
+	LocalURL         string
+	SiteSettings     *models.SiteSettingsDTO
 }
 
 func LoadConfig(config *Configurations) {
@@ -43,6 +46,11 @@ func LoadConfig(config *Configurations) {
 	// Load AWS Bucket
 	config.S3Bucket = LoadFromEnv("S3_BUCKET_NAME")
 	config.AWSRegion = LoadFromEnv("AWS_REGION")
+
+	// Load URLs
+	config.BaseURL = LoadFromEnv("BASE_URL")
+	config.BaseURLSubdomain = LoadFromEnv("BASE_URL_SUBDOMAIN")
+	config.LocalURL = os.Getenv("LOCAL_URL") // Using Getenv so that this can be optional.
 }
 
 func LoadFromEnv(key string) string {
