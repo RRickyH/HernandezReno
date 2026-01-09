@@ -7,7 +7,7 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/api.hernandezreno.ca/privkey.pem;
     
     # SSL Configuration (include Let's Encrypt recommended settings)
-    include /etc/letsencrypt/options-ssl-nginx.conf;
+    # TODO: include /etc/letsencrypt/options-ssl-nginx.conf;
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
     
     # Security headers
