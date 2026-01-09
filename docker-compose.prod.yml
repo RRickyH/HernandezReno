@@ -6,6 +6,11 @@ services:
     expose:
       - "8080"
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     depends_on:
       postgres:
         condition: service_healthy
@@ -27,6 +32,11 @@ services:
       timeout: 30s
       retries: 5
       start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   nginx:
     image: nginx:1.15-alpine
@@ -39,6 +49,11 @@ services:
       - certbot-www:/var/www/certbot:ro
     restart:
       always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     depends_on:
       bluesteel:
         condition: service_started
@@ -49,6 +64,11 @@ services:
     volumes:
       - ./certbot-conf:/etc/letsencrypt
       - certbot-www:/var/www/certbot
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 
 volumes:
