@@ -13,7 +13,7 @@ import (
 
 func RegisterRoutes(r *gin.Engine, db *gorm.DB) {
 	handler := handlers.New(projectservice.NewGormService(db), personservice.NewGormService(db), siteservice.NewGormService(db), uploadservice.NewS3Service())
-	api := r.Group("/api")
+	api := r.Group("/")
 
 	// Project Endpoints.
 	api.GET("/projects", handler.ListProjects)
