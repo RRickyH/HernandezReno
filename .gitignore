@@ -36,5 +36,4 @@ postrges-data/
 *.sw?
 
 # SSL Certificates
-certbot/conf/*
-certbot/www/*
+certbot-conf/
