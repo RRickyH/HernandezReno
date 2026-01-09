@@ -1,6 +1,10 @@
 package main
 
 import (
+	"log/slog"
+	"os"
+	"time"
+
 	"github.com/RRickyH/HernandezReno/bluesteel/database"
 	"github.com/RRickyH/HernandezReno/bluesteel/models"
 	"github.com/RRickyH/HernandezReno/bluesteel/routes"
@@ -8,9 +12,6 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"log/slog"
-	"os"
-	"time"
 )
 
 var MaxRetries = 5
@@ -78,7 +79,7 @@ func main() {
 	}
 
 	routes.RegisterRoutes(router, db)
-	router.SetTrustedProxies(nil)
+	router.SetTrustedProxies(services.Config.TrustedProxies)
 	err = router.Run()
 	if err != nil {
 		slog.Error("api crashed", "error", err)

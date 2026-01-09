@@ -1,10 +1,12 @@
 package services
 
 import (
-	"github.com/RRickyH/HernandezReno/bluesteel/models"
-	"github.com/joho/godotenv"
 	"log/slog"
 	"os"
+	"strings"
+
+	"github.com/RRickyH/HernandezReno/bluesteel/models"
+	"github.com/joho/godotenv"
 )
 
 var Config Configurations
@@ -22,6 +24,7 @@ type Configurations struct {
 	BaseURL          string
 	BaseURLSubdomain string
 	LocalURL         string
+	TrustedProxies   []string
 	SiteSettings     *models.SiteSettingsDTO
 }
 
@@ -36,12 +39,12 @@ func LoadConfig(config *Configurations) {
 	config.JWTSecretKey = LoadFromEnv("JWT_SECRET_KEY")
 
 	// Get database connection variables
-	config.DBHost = LoadFromEnv("DB_HOST")
-	config.DBUser = LoadFromEnv("DB_USER")
-	config.DBPassword = LoadFromEnv("DB_PASSWORD")
-	config.DBName = LoadFromEnv("DB_NAME")
-	config.DBPort = LoadFromEnv("DB_PORT")
-	config.DBSSLMode = LoadFromEnv("DB_SSLMODE")
+	config.DBHost = LoadFromEnv("DATABASE_HOST")
+	config.DBUser = LoadFromEnv("DATABASE_USER")
+	config.DBPassword = LoadFromEnv("DATABASE_PASSWORD")
+	config.DBName = LoadFromEnv("DATABASE_NAME")
+	config.DBPort = LoadFromEnv("DATABASE_PORT")
+	config.DBSSLMode = LoadFromEnv("DATABASE_SSLMODE")
 
 	// Load AWS Bucket
 	config.S3Bucket = LoadFromEnv("S3_BUCKET_NAME")
@@ -51,6 +54,9 @@ func LoadConfig(config *Configurations) {
 	config.BaseURL = LoadFromEnv("BASE_URL")
 	config.BaseURLSubdomain = LoadFromEnv("BASE_URL_SUBDOMAIN")
 	config.LocalURL = os.Getenv("LOCAL_URL") // Using Getenv so that this can be optional.
+
+	// Load trusted proxies
+	config.TrustedProxies = strings.Split(os.Getenv("TRUSTED_PROXIES"), ",")
 }
 
 func LoadFromEnv(key string) string {

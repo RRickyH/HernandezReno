@@ -1,0 +1,53 @@
+services:
+  bluesteel:
+    build: ./bluesteel
+    env_file:
+      .env
+    expose:
+      - "8080"
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: bluesteel_db
+    volumes:
+      - db_data:/var/lib/postgresql
+    restart: always
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "bluesteel_db"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
+  nginx:
+    image: nginx:1.15-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d:ro 
+      - certbot-conf:/etc/letsencrypt:ro
+      - certbot-www:/var/www/certbot:ro
+
+
+  certbot:
+    image: certbot/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    volumes:
+      - certbot-conf:/etc/letsencrypt
+      - certbot-www:/var/www/certbot
+
+
+volumes:
+  db_data:
+  certbot-conf:
+  certbot-www:

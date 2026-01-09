@@ -34,3 +34,7 @@ postrges-data/
 *.njsproj
 *.sln
 *.sw?
+
+# SSL Certificates
+certbot/conf/*
+certbot/www/*
