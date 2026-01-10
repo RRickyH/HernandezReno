@@ -40,7 +40,11 @@ export default function Login() {
       await login(formData.username, formData.password);
     } catch (error) {
       console.error(error);
-      setError(error.message);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("an unexpected error occurred");
+      }
       return;
     }
     navigate("/admin");
