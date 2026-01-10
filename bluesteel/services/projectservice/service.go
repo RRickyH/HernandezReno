@@ -11,6 +11,7 @@ type Service interface {
 	Delete(id models.ProjectID) error
 	Update(id models.ProjectID, projectDTO *models.ProjectDTO) error
 	GetImages(id models.ProjectID) ([]string, error)
+	GetTags() ([]string, error)
 }
 
 var (

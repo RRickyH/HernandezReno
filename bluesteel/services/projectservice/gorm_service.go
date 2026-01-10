@@ -5,6 +5,7 @@ import (
 	"github.com/RRickyH/HernandezReno/bluesteel/models"
 	"gorm.io/gorm"
 	"log/slog"
+	"fmt"
 )
 
 const UniqueViolation = "23505"
@@ -43,8 +44,9 @@ func (g *GormService) GetAll() ([]models.ProjectDTO, error) {
 				tags = append(tags, tag.Name)
 			}
 		}
-
+        projectID := fmt.Sprintf("%d", project.ID)
 		projectDTO := models.ProjectDTO{
+		    ID:          &projectID,
 			Title:       project.Title,
 			Description: project.Description,
 			Date:        project.Date,
@@ -130,7 +132,7 @@ func (g *GormService) Update(id models.ProjectID, projectDTO *models.ProjectDTO)
 		// Create new image links if new images are provided.
 		if projectDTO.ImageKeys != nil {
 			// Clear the original images.
-			err := tx.Model(&project).Association("Images").Clear()
+			err := tx.Model(&project).Association("Images").Unscoped().Clear()
 			if err != nil {
 				slog.Error("failed to clear original image links", "error", err.Error())
 				return err
@@ -193,6 +195,24 @@ func (g *GormService) GetImages(id models.ProjectID) ([]string, error) {
 	return urls, nil
 }
 
+// GetTags fetches all the tags from the database and returns them.
+func (g *GormService) GetTags() ([]string, error) {
+    var tagModels []models.Tag
+    result := g.DB.Find(&tagModels)
+    if result.Error != nil {
+        slog.Error("failed to fetch tags from the GormService", "error", result.Error.Error())
+        return nil, result.Error
+    }
+
+    // Make a string slice of the tags.
+    var tags []string
+    for _, tag := range tagModels {
+        tags = append(tags, tag.Name)
+    }
+
+    return tags, nil
+}
+
 // linkImages is a helper function that saves given images in the database and links them to the given project.
 func linkImages(db *gorm.DB, project *models.Project, imageKeys []string) error {
 	slog.Info("linking images to project", "ProjectID", project.ID, "imageKeys", imageKeys)
@@ -208,12 +228,6 @@ func linkImages(db *gorm.DB, project *models.Project, imageKeys []string) error 
 		if result.Error != nil {
 			slog.Error("Failed to link image to project", "imageKey", key, "error", result.Error)
 			continue
-		}
-
-		// Link the created image to the project.
-		err := db.Model(&project).Association("Images").Append(&image)
-		if err != nil {
-			slog.Error("Failed to link image to project", "error", err)
 		}
 	}
 	return nil
@@ -232,12 +246,6 @@ func linkTags(db *gorm.DB, project *models.Project, tags []string) error {
 		if result.Error != nil {
 			slog.Error("Failed to link tag to project", "error", result.Error, "tag", newTag)
 			continue
-		}
-
-		// Link the tag to the project.
-		err := db.Model(&project).Association("Tags").Append(&tag)
-		if err != nil {
-			slog.Error("Failed to link tag to project", "error", err)
 		}
 	}
 	return nil

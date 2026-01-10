@@ -37,3 +37,8 @@ func (h *Handler) Login(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"token": token})
 }
+
+
+func (h *Handler) CheckToken(c *gin.Context) {
+    c.Status(http.StatusOK) // This must be set up as a protected route using auth middleware.
+}
