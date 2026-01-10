@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     base: "/",
+    envDir: "../",
     plugins: [react(), tailwindcss()],
     preview: {
       port: 5173,
