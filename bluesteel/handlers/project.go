@@ -85,7 +85,7 @@ func (h *Handler) UpdateProject(c *gin.Context) {
 
 	err = h.ProjectService.Update(projectID, &project)
 	if err != nil {
-		c.Status(http.StatusBadRequest)
+		c.Status(http.StatusInternalServerError)
 		return
 	}
 
@@ -112,4 +112,17 @@ func (h *Handler) GetProjectImages(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, images)
+}
+
+func (h *Handler) GetTags(c *gin.Context) {
+    var tags []string
+    tags, err := h.ProjectService.GetTags()
+    if err != nil {
+        slog.Error("unable to fetch tags!", "error", err.Error())
+        c.Status(http.StatusInternalServerError)
+        return
+    }
+
+    slog.Info("successfully fetched tags", "tags", tags)
+    c.JSON(http.StatusOK, tags)
 }

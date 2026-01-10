@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { SiteContext } from "src/Context.tsx";
 import NavBar from "src/components/navigation/NavBar.tsx";
 import Footer from "src/components/navigation/Footer.tsx";
 
 function Home() {
+  const { config, loading } = useContext(SiteContext);
+
   return (
     <div className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-50">
@@ -17,21 +21,22 @@ function Home() {
       <main className="flex-grow">
         {/* Hero section */}
         <section className="relative h-[50vh] items-center justify-start w-full flex">
-          <div className="absolute inset-0 bg-[url(/kitchen_fallback.jpg)] bg-cover bg-center bg-no-repeat">
+          <div
+            className={`absolute inset-0 bg-cover bg-center bg-no-repeat`}
+            style={{ backgroundImage: `url('${config.heroImageURL}')` }}
+          >
             <div className="absolute inset-0 bg-black/60"></div>
           </div>
           <div className="relative z-10 inset-0 flex flex-col text-gray-50 p-6 gap-4 max-w-md justify-start items-start">
             <div className="flex flex-col">
-              <span className="text-3xl text-shadow-lg/20">Your Kitchen,</span>
+              <span className="text-3xl text-shadow-lg/20">
+                {config.titleText}
+              </span>
               <span className="text-5xl text-amber-400 font-bold text-shadow-lg/20">
-                Reimagined.
+                {config.accentText}
               </span>
             </div>
-            <p className="text-lg text-shadow-lg">
-              Breathing new life into your spaces with hand-crafted custom
-              carpentry and decades of expertise. Find out how we can transform
-              your space today.
-            </p>
+            <p className="text-lg text-shadow-lg">{config.tagLine}</p>
             <div className="flex gap-4">
               <NavLink
                 to="/contact"
@@ -48,10 +53,13 @@ function Home() {
             </div>
           </div>
         </section>
-        {/* Intro section */}
-        <section></section>
-        {/* Contact section */}
-        <section></section>
+        {loading ? (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            Loading
+          </div>
+        ) : (
+          <></>
+        )}
       </main>
       <Footer />
     </div>

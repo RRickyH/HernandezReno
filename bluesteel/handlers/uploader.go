@@ -32,5 +32,5 @@ func (h *Handler) GetPresignedURL(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "unable to get a presigned url"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"url": URL})
+	c.JSON(http.StatusOK, gin.H{"url": URL, "objectKey": objectKey})
 }
