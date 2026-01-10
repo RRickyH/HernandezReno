@@ -35,6 +35,9 @@ jobs:
         run: npm install
 
       - name: Build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_CDN_URL: ${{ secrets.VITE_CDN_URL }}
         run: npm run build
 
       - name: Setup Pages
