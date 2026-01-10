@@ -23,10 +23,8 @@ export default function Login() {
           navigate("/admin");
         }
       } catch (error) {
-        // Check if error is actually an Error object
         if (error instanceof Error) {
           console.error(error.message);
-          // setErrorMessage(error.message);
         } else {
           console.error("An unexpected error occurred", error);
         }
