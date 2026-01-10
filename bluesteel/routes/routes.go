@@ -18,6 +18,7 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) {
 	// Project Endpoints.
 	api.GET("/projects", handler.ListProjects)
 	api.GET("/projects/:id/images", handler.GetProjectImages)
+	api.GET("/tags", handler.GetTags)
 
 	// Site Setting Endpoints.
 	api.GET("/settings", handler.GetSiteSettings)
@@ -27,7 +28,9 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) {
 	api.GET("/person/:id", handler.GetPerson)
 
 	// Login Endpoints.
-	r.POST("/login", handler.Login)
+	api.POST("/login", handler.Login)
+
+	api.POST("/uploader", handler.GetPresignedURL)
 
 	// Protected Endpoints.
 	protected := api.Group("/")
@@ -43,6 +46,6 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) {
 		protected.PATCH("/person/:id", handler.UpdatePerson)
 		protected.DELETE("/person/:id", handler.DeletePerson)
 
-		protected.POST("/uploader", handler.GetPresignedURL)
+		protected.GET("/check", handler.CheckToken)
 	}
 }

@@ -98,6 +98,14 @@ export default function Footer() {
                 </NavLink>
               </li>
               <li>
+                <NavLink
+                  to="/login"
+                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                >
+                  Login
+                </NavLink>
+              </li>
+              <li>
                 <a
                   href="/contact"
                   className="text-gray-300 hover:text-white transition-colors duration-200"

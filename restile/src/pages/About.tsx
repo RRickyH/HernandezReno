@@ -2,8 +2,11 @@ import NavBar from "src/components/navigation/NavBar.tsx";
 import Footer from "src/components/navigation/Footer.tsx";
 import PersonCard from "src/components/PersonCard.tsx";
 import ContactCard from "src/components/ContactCard.tsx";
+import { useContext } from "react";
+import { SiteContext } from "../Context.tsx";
 
 export default function About() {
+  const { config, loading } = useContext(SiteContext);
   return (
     <div className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-50">
@@ -18,7 +21,10 @@ export default function About() {
       <main className="flex-grow">
         {/* Hero section */}
         <section className="relative h-[40vh] items-start justify-start w-full flex">
-          <div className="absolute inset-0 bg-[url(/home_kitchen.jpg)] bg-cover bg-center bg-no-repeat">
+          <div
+            className={`absolute inset-0 bg-cover bg-center bg-no-repeat`}
+            style={{ backgroundImage: `url('${config.aboutImageURL}')` }}
+          >
             <div className="absolute inset-0 bg-black/60"></div>
           </div>
           <img
@@ -37,16 +43,7 @@ export default function About() {
         {/* Company about section*/}
         <section>
           <div className="container mx-auto text-gray-50">
-            <p className="text-lg p-6">
-              Company information about the company description text,
-              information. This is supplementary to what we are all about and
-              it’s very essential for perception. It’s all about building trust
-              in our company and showing that we know what we are doing, and are
-              capable of transforming their space, and making them happy. This
-              is also about telling a story about where we came from and where
-              we are going. This really helps build authenticity, brand, and
-              connection.
-            </p>
+            <p className="text-lg p-6">{config.aboutDescription}</p>
             <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
               <li className="flex flex-col items-center justify-center p-16 gap-4">
                 <h3 className="text-2xl text-center">Projects Completed</h3>
@@ -155,6 +152,13 @@ Known for her friendly and professional demeanor, Jennifer is deeply committed t
           <span className="inline-block h-1 bg-gray-50/50 rounded-full md:w-1 md:h-auto" />
           <ContactCard />
         </section>
+        {loading ? (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+            Loading
+          </div>
+        ) : (
+          <></>
+        )}
       </main>
       <Footer />
     </div>
