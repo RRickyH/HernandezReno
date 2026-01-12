@@ -1,5 +1,5 @@
 import { SiteProvider } from "src/Context.tsx";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Home from "src/pages/Home";
 import About from "src/pages/About";
 import Gallery from "src/pages/Gallery";
@@ -10,7 +10,7 @@ import Admin from "src/pages/Admin";
 export default function App() {
   return (
     <SiteProvider>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/gallery" element={<Gallery />} />
@@ -19,7 +19,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </SiteProvider>
   );
 }

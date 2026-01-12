@@ -78,6 +78,7 @@ export default function Login() {
                   <input
                     type="username"
                     required
+                    maxLength={50}
                     className="mt-1 block w-full px-3 py-2 border text-gray-50 border-gray-300 rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-400"
                     onChange={(e) =>
                       setFormData({ ...formData, username: e.target.value })
@@ -90,6 +91,7 @@ export default function Login() {
                   </label>
                   <input
                     type="password"
+                    maxLength={50}
                     required
                     className="mt-1 block w-full px-3 py-2 border text-gray-50 border-gray-300 rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-400"
                     onChange={(e) =>

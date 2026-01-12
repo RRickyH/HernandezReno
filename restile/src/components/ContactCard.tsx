@@ -8,6 +8,8 @@ export default function ContactCard() {
         <div className="flex flex-col items-start justify-start w-full gap-1">
           <label>Your email</label>
           <input
+            type="email"
+            maxLength={50}
             placeholder="your-email@example.com"
             className="w-full bg-gray-100 border-gray-400/40 border-2 rounded-lg p-1"
             required
@@ -16,6 +18,8 @@ export default function ContactCard() {
         <div className="flex flex-col items-stretch justify-start w-full gap-1">
           <label>Your phone number</label>
           <input
+            type="tel"
+            maxLength={15}
             placeholder="123 456 7890"
             className="w-full bg-gray-100 border-gray-400/40 border-2 rounded-lg p-1"
           ></input>
@@ -24,6 +28,7 @@ export default function ContactCard() {
           <label>Subject</label>
           <input
             placeholder="Message description"
+            maxLength={50}
             className="w-full bg-gray-100 border-gray-400/40 border-2 rounded-lg p-1"
             required
           ></input>
@@ -32,6 +37,7 @@ export default function ContactCard() {
           <label>Message</label>
           <textarea
             rows={4}
+            maxLength={500}
             placeholder="Your message..."
             className="w-full bg-gray-100 border-gray-400/40 border-2 rounded-lg p-1"
             required
