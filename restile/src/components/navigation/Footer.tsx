@@ -106,12 +106,12 @@ export default function Footer() {
                 </NavLink>
               </li>
               <li>
-                <a
-                  href="/contact"
+                <NavLink
+                  to="/contact"
                   className="text-gray-300 hover:text-white transition-colors duration-200"
                 >
-                  Free Quote
-                </a>
+                  Free quote
+                </NavLink>
               </li>
             </ul>
           </div>

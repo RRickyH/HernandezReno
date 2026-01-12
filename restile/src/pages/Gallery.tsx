@@ -74,7 +74,7 @@ export default function Gallery() {
         <section className="flex flex-col items-center justify-center gap-8 p-8">
           {/* Tags */}
           <div className="flex flex-row flex-wrap items-center justify-center gap-2">
-            {tags.map((tag) => (
+            {tags?.map((tag) => (
               <button
                 className={`rounded-xl py-2 px-4 hover:scale-105 transition-all ${activeTag === tag ? "border-0 bg-gray-900 text-gray-50" : "border-gray-400/50 border-2 b-white text-gray-900"}`}
                 onClick={() => setActiveTag(activeTag === tag ? "" : tag)}
