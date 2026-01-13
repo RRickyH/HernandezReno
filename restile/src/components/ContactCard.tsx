@@ -114,7 +114,7 @@ export default function ContactCard() {
         </div>
         <button
           type="submit"
-          className="rounded-lg bg-gray-800 text-gray-50 font-bold text-lg px-4 py-2"
+          className={`rounded-lg bg-gray-800 text-gray-50 font-bold text-lg px-4 py-2 transition-all ${isSending ? "" : "hover:scale-110"}`}
           disabled={isSending}
         >
           {isSending ? "Sending..." : "Submit"}
