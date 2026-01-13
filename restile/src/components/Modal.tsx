@@ -7,11 +7,11 @@ interface modalProps {
 export default function Modal({ title, message, onDismiss }: modalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="rounded-4xl shadow-md bg-white p-6">
-        <div className="flex items-center justify-between mb-10">
+      <div className="rounded-2xl shadow-md bg-white p-6">
+        <div className="flex items-center justify-between mb-5">
           <h1 className="text-2xl">{title}</h1>
           <button
-            className="flex items-center justify-center rounded-xl bg-gray-800 aspect-square size-10 p-1.5"
+            className="flex items-center justify-center rounded-md bg-gray-800 aspect-square size-8 p-1.5"
             onClick={onDismiss}
           >
             <div className="relative flex items-center justify-center rounded-xl size-full">
@@ -28,7 +28,7 @@ export default function Modal({ title, message, onDismiss }: modalProps) {
             </div>
           </button>
         </div>
-        <p>{message}</p>
+        <p className="mb-5">{message}</p>
       </div>
     </div>
   );
