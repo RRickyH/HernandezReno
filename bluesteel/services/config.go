@@ -3,6 +3,7 @@ package services
 import (
 	"log/slog"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/RRickyH/HernandezReno/bluesteel/models"
@@ -25,6 +26,11 @@ type Configurations struct {
 	BaseURLSubdomain string
 	LocalURL         string
 	TrustedProxies   []string
+	SMTP_Host        string
+	SMTP_Port        int
+	SenderEmail      string
+	EmailPassword    string
+	DestinationEmail string
 	SiteSettings     *models.SiteSettingsDTO
 }
 
@@ -38,7 +44,7 @@ func LoadConfig(config *Configurations) {
 	// Load JWT secret key.
 	config.JWTSecretKey = LoadFromEnv("JWT_SECRET_KEY")
 
-	// Get database connection variables
+	// Get database connection variables.
 	config.DBHost = LoadFromEnv("DATABASE_HOST")
 	config.DBUser = LoadFromEnv("DATABASE_USER")
 	config.DBPassword = LoadFromEnv("DATABASE_PASSWORD")
@@ -46,17 +52,30 @@ func LoadConfig(config *Configurations) {
 	config.DBPort = LoadFromEnv("DATABASE_PORT")
 	config.DBSSLMode = LoadFromEnv("DATABASE_SSLMODE")
 
-	// Load AWS Bucket
+	// Load AWS Bucket.
 	config.S3Bucket = LoadFromEnv("S3_BUCKET_NAME")
 	config.AWSRegion = LoadFromEnv("AWS_REGION")
 
-	// Load URLs
+	// Load URLs.
 	config.BaseURL = LoadFromEnv("BASE_URL")
 	config.BaseURLSubdomain = LoadFromEnv("BASE_URL_SUBDOMAIN")
 	config.LocalURL = os.Getenv("LOCAL_URL") // Using Getenv so that this can be optional.
 
-	// Load trusted proxies
+	// Load trusted proxies.
 	config.TrustedProxies = strings.Split(os.Getenv("TRUSTED_PROXIES"), ",")
+
+	// Load email settings.
+	config.SMTP_Host = LoadFromEnv("SMTP_HOST")
+	SMTP_PortStr := LoadFromEnv("SMTP_PORT")
+	SMTP_Port, err := strconv.Atoi(SMTP_PortStr)
+	if err != nil {
+		slog.Error("Unable to parse SMTP_Host!")
+		panic("SMTP_Host parsing failed!")
+	}
+	config.SMTP_Port = SMTP_Port
+	config.SenderEmail = LoadFromEnv("SENDER_EMAIL")
+	config.DestinationEmail = LoadFromEnv("DESTINATION_EMAIL")
+	config.EmailPassword = LoadFromEnv("EMAIL_PASSWORD")
 }
 
 func LoadFromEnv(key string) string {
