@@ -3,7 +3,7 @@ package models
 import "time"
 
 type ProjectDTO struct {
-    ID          *string     `json:"id"`
+	ID          *string    `json:"id"`
 	Title       *string    `json:"title" binding:"omitempty,max=150"`
 	ImageKeys   []string   `json:"imageKeys" binding:"omitempty,dive,max=500"`
 	Date        *time.Time `json:"date"`
@@ -21,7 +21,7 @@ type SiteSettingsDTO struct {
 }
 
 type PersonDTO struct {
-    ID          *string `json:"id"`
+	ID          *string `json:"id"`
 	Name        *string `json:"name" binding:"omitempty,max=50"`
 	Role        *string `json:"role" binding:"omitempty,max=50"`
 	PhotoURL    *string `json:"photoURL" binding:"omitempty,max=500"`
@@ -31,4 +31,12 @@ type PersonDTO struct {
 type CredentialsDTO struct {
 	UserName string `json:"userName"`
 	Password string `json:"password"`
+}
+
+type ContactDTO struct {
+	Name    string `json:"name"`
+	Email   string `json:"email"`
+	Phone   string `json:"phone"`
+	Subject string `json:"subject"`
+	Message string `json:"message"`
 }

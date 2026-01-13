@@ -27,10 +27,10 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) {
 	api.GET("/person", handler.GetAllPeople)
 	api.GET("/person/:id", handler.GetPerson)
 
-	// Login Endpoints.
+	// Service Endpoints.
 	api.POST("/login", handler.Login)
-
 	api.POST("/uploader", handler.GetPresignedURL)
+	api.POST("/email", handler.SendEmail)
 
 	// Protected Endpoints.
 	protected := api.Group("/")
