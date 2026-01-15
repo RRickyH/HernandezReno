@@ -303,7 +303,7 @@ export default function Admin() {
                   <li className="p-2">
                     <ProjectListItem
                       title={project.title}
-                      id={project.id ? project.id : ""}
+                      id={project.id ? String(project.id) : ""}
                       thumbnailURL={
                         project.imageKeys
                           ? getImageURL(project.imageKeys[0])

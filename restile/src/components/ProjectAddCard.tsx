@@ -19,7 +19,7 @@ export default function ProjectAddCard({ onAdd, onCancel }: ProjectAddProps) {
     title: "",
     description: "",
   });
-  const [tags, setTags] = useState(new Set());
+  const [tags, setTags] = useState<Set<string>>(new Set());
   const [newTag, setNewTag] = useState("");
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [isAdding, setIsAdding] = useState(false);
