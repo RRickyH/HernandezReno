@@ -15,7 +15,7 @@ export default function PersonCard({
     <div className="flex flex-col [.card-row_&]:flex-col [.card-row_&]:h-full lg:flex-row w-full items-center justify-between bg-gray-900 rounded-2xl p-4 gap-4">
       <div>
         <img
-          src={image_src}
+          src={image_src ? image_src : "/Hernandez_renovations_logo.svg"}
           alt={"Photo of " + name}
           className="size-full aspect-square rounded-md object-cover object-center w-full max-w-128"
         />

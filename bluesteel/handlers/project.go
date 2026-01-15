@@ -115,14 +115,25 @@ func (h *Handler) GetProjectImages(c *gin.Context) {
 }
 
 func (h *Handler) GetTags(c *gin.Context) {
-    var tags []string
-    tags, err := h.ProjectService.GetTags()
-    if err != nil {
-        slog.Error("unable to fetch tags!", "error", err.Error())
-        c.Status(http.StatusInternalServerError)
-        return
-    }
+	var tags []string
+	tags, err := h.ProjectService.GetTags()
+	if err != nil {
+		slog.Error("unable to fetch tags!", "error", err.Error())
+		c.Status(http.StatusInternalServerError)
+		return
+	}
 
-    slog.Info("successfully fetched tags", "tags", tags)
-    c.JSON(http.StatusOK, tags)
+	slog.Info("successfully fetched tags", "tags", tags)
+	c.JSON(http.StatusOK, tags)
+}
+
+func (h *Handler) DeleteTag(c *gin.Context) {
+	tag := c.Param("tag")
+	err := h.ProjectService.DeleteTag(tag)
+	if errors.Is(err, projectservice.ErrEmptyTag) {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "an empty tag was provided; a tag must be provided"})
+	} else if err != nil {
+		slog.Error("an error occurred while deleting a tag", "tag", tag, "error", err)
+		c.Status(http.StatusInternalServerError)
+	}
 }

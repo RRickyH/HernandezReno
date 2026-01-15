@@ -2,10 +2,10 @@ package projectservice
 
 import (
 	"errors"
+	"fmt"
 	"github.com/RRickyH/HernandezReno/bluesteel/models"
 	"gorm.io/gorm"
 	"log/slog"
-	"fmt"
 )
 
 const UniqueViolation = "23505"
@@ -44,9 +44,9 @@ func (g *GormService) GetAll() ([]models.ProjectDTO, error) {
 				tags = append(tags, tag.Name)
 			}
 		}
-        projectID := fmt.Sprintf("%d", project.ID)
+		projectID := fmt.Sprintf("%d", project.ID)
 		projectDTO := models.ProjectDTO{
-		    ID:          &projectID,
+			ID:          &projectID,
 			Title:       project.Title,
 			Description: project.Description,
 			Date:        project.Date,
@@ -197,20 +197,29 @@ func (g *GormService) GetImages(id models.ProjectID) ([]string, error) {
 
 // GetTags fetches all the tags from the database and returns them.
 func (g *GormService) GetTags() ([]string, error) {
-    var tagModels []models.Tag
-    result := g.DB.Find(&tagModels)
-    if result.Error != nil {
-        slog.Error("failed to fetch tags from the GormService", "error", result.Error.Error())
-        return nil, result.Error
-    }
+	var tagModels []models.Tag
+	result := g.DB.Find(&tagModels)
+	if result.Error != nil {
+		slog.Error("failed to fetch tags from the GormService", "error", result.Error.Error())
+		return nil, result.Error
+	}
 
-    // Make a string slice of the tags.
-    var tags []string
-    for _, tag := range tagModels {
-        tags = append(tags, tag.Name)
-    }
+	// Make a string slice of the tags.
+	var tags []string
+	for _, tag := range tagModels {
+		tags = append(tags, tag.Name)
+	}
 
-    return tags, nil
+	return tags, nil
+}
+
+// DeleteTag removes a tag from the database and associated projects.
+func (g *GormService) DeleteTag(tag string) error {
+	if tag == "" {
+		return ErrEmptyTag
+	}
+	result := g.DB.Where("name = ?", tag).Delete(&models.Tag{})
+	return result.Error
 }
 
 // linkImages is a helper function that saves given images in the database and links them to the given project.
@@ -239,14 +248,26 @@ func linkTags(db *gorm.DB, project *models.Project, tags []string) error {
 		slog.Info("no tags provided to link with project", "ProjectID", project.ID)
 		return nil
 	}
+
+	// Create or get pre-existing tags.
+	var tagModels []models.Tag
 	for _, newTag := range tags {
 		// Create a new tag or use one if it already exists.
 		var tag models.Tag
 		result := db.FirstOrCreate(&tag, models.Tag{Name: newTag})
 		if result.Error != nil {
-			slog.Error("Failed to link tag to project", "error", result.Error, "tag", newTag)
+			slog.Error("Failed to create tag", "error", result.Error, "tag", newTag)
 			continue
 		}
+		tagModels = append(tagModels, tag)
 	}
+
+	// Link these tags to the project.
+	err := db.Model(project).Association("Tags").Append(tagModels)
+	if err != nil {
+		slog.Error("Failed to append tags to project association", "error", err)
+		return err
+	}
+
 	return nil
 }

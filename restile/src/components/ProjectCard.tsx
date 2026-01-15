@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 export interface ProjectCardProps {
+  id?: string;
   title: string;
   images: string[];
   date?: string;
@@ -21,7 +22,13 @@ export default function ProjectCard(props: ProjectCardProps) {
         }}
         className="mb-4 w-full"
       >
-        <img alt={`image of ${title}`} src={images[0]} className="w-full" />
+        <img
+          alt={`image of ${title}`}
+          src={
+            images.length === 0 ? "/Hernandez_renovations_logo.svg" : images[0]
+          }
+          className="w-full"
+        />
       </button>
       {/* Project Pop-up */}
       {open ? (
@@ -40,7 +47,7 @@ export default function ProjectCard(props: ProjectCardProps) {
             {/* Image Carousel */}
             <img
               alt={`Image of ${title}`}
-              src={images[0]}
+              src={images ? images[0] : "/Hernandez_renovations_logo.svg"}
               className="w-[90vw] aspect-square md:aspect-auto md:w-[40vw] rounded-sm object-cover"
             />
             <div className="flex flex-col flex-1 relative items-center justify-items-stretch text-gray-900 md:w-[33vw] md:overflow-y-auto gap-2">

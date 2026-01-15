@@ -21,6 +21,7 @@ export default function ContactCard() {
   });
   const [isSending, setIsSending] = useState(false);
   const [submitError, setSubmitError] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
   async function handleSend(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsSending(true);
@@ -33,6 +34,14 @@ export default function ContactCard() {
       if (!response.ok) {
         throw Error("Failed to send email");
       }
+      setSuccessModalOpen(true);
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
     } catch (error) {
       console.error(error);
       setSubmitError(true);
@@ -57,6 +66,7 @@ export default function ContactCard() {
             placeholder="Barack Obama"
             className="w-full bg-gray-100 border-gray-400/40 border-2 rounded-lg p-1"
             required
+            value={form.name}
             onChange={(e) => {
               setForm({ ...form, name: e.target.value });
             }}
@@ -70,6 +80,7 @@ export default function ContactCard() {
             placeholder="your-email@example.com"
             className="w-full bg-gray-100 border-gray-400/40 border-2 rounded-lg p-1"
             required
+            value={form.email}
             onChange={(e) => {
               setForm({ ...form, email: e.target.value });
             }}
@@ -82,6 +93,7 @@ export default function ContactCard() {
             maxLength={15}
             placeholder="123 456 7890"
             className="w-full bg-gray-100 border-gray-400/40 border-2 rounded-lg p-1"
+            value={form.phone}
             onChange={(e) => {
               setForm({ ...form, phone: e.target.value });
             }}
@@ -94,6 +106,7 @@ export default function ContactCard() {
             maxLength={50}
             className="w-full bg-gray-100 border-gray-400/40 border-2 rounded-lg p-1"
             required
+            value={form.subject}
             onChange={(e) => {
               setForm({ ...form, subject: e.target.value });
             }}
@@ -105,8 +118,9 @@ export default function ContactCard() {
             rows={4}
             maxLength={500}
             placeholder="Your message..."
-            className="w-full bg-gray-100 border-gray-400/40 border-2 rounded-lg p-1"
+            className="w-full bg-gray-100 border-gray-400/40 border-2 rounded-lg p-1 resize-none"
             required
+            value={form.message}
             onChange={(e) => {
               setForm({ ...form, message: e.target.value });
             }}
@@ -122,12 +136,21 @@ export default function ContactCard() {
       </form>
       {submitError ? (
         <Modal
-          title="Email Error"
-          message="The email failed to send! Please contact us directly."
+          title="Message Error"
+          message="Your message failed to send! Please contact us directly."
           onDismiss={() => {
             setSubmitError(false);
           }}
         ></Modal>
+      ) : null}
+      {successModalOpen ? (
+        <Modal
+          title="Message Sent"
+          message="Your email was sent"
+          onDismiss={() => {
+            setSuccessModalOpen(false);
+          }}
+        />
       ) : null}
     </div>
   );

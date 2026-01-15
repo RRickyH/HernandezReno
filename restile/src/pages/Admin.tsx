@@ -1,8 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import NavBar from "src/components/navigation/NavBar.tsx";
-import { SiteContext } from "src/Context.tsx";
-import { updateConfig } from "src/services/config.ts";
+import NavBar from "src/components/navigation/NavBar";
+import ProjectListItem from "src/components/ProjectListItem";
+import TagListItem from "src/components/TagListItem";
+import { getProjects, getTags } from "src/services/projects";
+import { getImageURL, Project } from "src/services/types";
+import { SiteContext } from "src/Context";
+import { updateConfig } from "src/services/config";
+import ProjectAddCard from "src/components/ProjectAddCard";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -10,6 +15,11 @@ export default function Admin() {
   const navigate = useNavigate();
   const location = useLocation();
   const [authenticated, setAuthenticated] = useState(false);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [projectFetchError, setProjectFetchError] = useState(false);
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagFetchError, setTagFetchError] = useState(false);
+  const [isAddingProject, setIsAddingProject] = useState(false);
   const { config, setConfig } = useContext(SiteContext);
 
   // Use the context data as the initial form state
@@ -30,7 +40,9 @@ export default function Admin() {
         });
         if (!response.ok) throw new Error();
         setAuthenticated(true);
-      } catch (error) {
+        await updateProjects();
+        await updateTags();
+      } catch {
         localStorage.removeItem("token");
         navigate("/login");
       }
@@ -62,6 +74,31 @@ export default function Admin() {
     );
   }
 
+  async function updateProjects() {
+    try {
+      const projects = await getProjects();
+      setProjects(projects);
+      setProjectFetchError(false);
+      console.log("fetched projects: ", projects);
+    } catch {
+      setProjects([]);
+      setProjectFetchError(true);
+    }
+  }
+
+  async function updateTags() {
+    try {
+      const tags = await getTags();
+      setTags(tags);
+      setTagFetchError(false);
+    } catch (error) {
+      if (error instanceof Error) {
+        setTagFetchError(true);
+        console.error(error.message);
+      }
+    }
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-gray-100">
       <header className="sticky top-0 z-50 border-b border-gray-800">
@@ -75,10 +112,11 @@ export default function Admin() {
             Update the content and images for the main website.
           </p>
         </div>
-
-        <div className="bg-gray-800/50 rounded-xl border border-gray-700 p-8 shadow-xl">
+        {/* Site Settings Configurations */}
+        <div className="bg-gray-800 rounded-xl border border-gray-700 p-8 shadow-xl mb-10">
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Section: Hero Content */}
+            <h1 className="text-2xl font-bold mb-4">Site Settings</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-4">
                 <h2 className="text-amber-400 font-semibold uppercase tracking-wider text-sm">
@@ -206,6 +244,147 @@ export default function Admin() {
             </div>
           </form>
         </div>
+
+        {/* Projects Configurations */}
+        <div className="bg-gray-800 rounded-xl border border-gray-700 p-8 shadow-xl mb-10">
+          <h1 className="text-2xl font-bold mb-4">Projects</h1>
+
+          {/* Project list */}
+          <div className="flex flex-col justify-stretch h-96 bg-gray-900 border-gray-700/50 p-4 rounded-md gap-2">
+            <div className="flex flex-row items-center justify-between gap-2 p-2 font-semibold">
+              <label className="text-center w-16">ID</label>
+              <label className="w-12">Image</label>
+              <label className="ml-4 w-42 text-start">Title</label>
+              <label className="ml-2 flex grow text-start">Tags</label>
+              <button
+                className="flex flex-shrink-0 relative items-center justify-center size-10 rounded-md transition-all hover:bg-gray-700"
+                onClick={updateProjects}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="size-6 stroke-3 stroke-gray-300"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+                  />
+                </svg>
+              </button>
+              <button
+                className="flex flex-shrink-0 relative items-center justify-center size-10 rounded-md transition-all hover:bg-gray-700"
+                onClick={() => {
+                  setIsAddingProject(true);
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="size-6 stroke-3 stroke-gray-300"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
+                </svg>
+              </button>
+            </div>
+            <hr className="border-gray-700 border-2" />
+            {projectFetchError ? (
+              <span>Error fetching projects, please try again</span>
+            ) : null}
+            {!projectFetchError && projects ? (
+              <ul className="flex flex-col justify-stretch overflow-y-scroll no-scrollbar grow divide-y-2 divide-gray-700">
+                {projects.map((project) => (
+                  <li className="p-2">
+                    <ProjectListItem
+                      title={project.title}
+                      id={project.id ? project.id : ""}
+                      thumbnailURL={
+                        project.imageKeys
+                          ? getImageURL(project.imageKeys[0])
+                          : undefined
+                      }
+                      tags={project.tags}
+                      onDelete={() => {
+                        updateProjects();
+                        updateTags();
+                      }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <span className="p-2">No projects.</span>
+            )}
+          </div>
+        </div>
+        <div className="bg-gray-800 rounded-xl border border-gray-700 p-8 shadow-xl">
+          <h1 className="text-2xl font-bold mb-4">Tags</h1>
+
+          {/* Tags List */}
+          <div className="flex flex-col justify-stretch h-96 bg-gray-900 border-gray-700/50 p-4 rounded-md gap-2">
+            <div className="flex flex-row items-center justify-between gap-2 p-2">
+              <label className="flex grow text-start font-bold">Tags</label>
+              <button
+                className="flex flex-shrink-0 relative items-center justify-center size-10 rounded-md transition-all hover:bg-gray-700"
+                onClick={updateTags}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="size-6 stroke-3 stroke-gray-300"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+                  />
+                </svg>
+              </button>
+            </div>
+            <hr className="border-gray-700 border-2" />
+            {tagFetchError ? (
+              <span>Error fetching tags, please try again</span>
+            ) : null}
+            {!tagFetchError && tags ? (
+              <ul className="flex flex-col justify-stretch overflow-y-scroll no-scrollbar grow divide-y-2 divide-gray-700">
+                {tags.map((tag) => (
+                  <li className="p-2">
+                    <TagListItem
+                      name={tag}
+                      onDelete={() => {
+                        updateProjects();
+                        updateTags();
+                      }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <span className="p-2">No tags.</span>
+            )}
+          </div>
+        </div>
+        {isAddingProject ? (
+          <ProjectAddCard
+            onAdd={async () => {
+              await updateProjects();
+              await updateTags();
+              setIsAddingProject(false);
+            }}
+            onCancel={async () => {
+              await updateProjects();
+              await updateTags();
+              setIsAddingProject(false);
+            }}
+          />
+        ) : null}
       </main>
     </div>
   );
