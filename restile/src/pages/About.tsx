@@ -44,20 +44,20 @@ export default function About() {
         <section>
           <div className="container mx-auto text-gray-50">
             <p className="text-lg p-6">{config.aboutDescription}</p>
-            <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-              <li className="flex flex-col items-center justify-center p-16 gap-4">
-                <h3 className="text-2xl text-center">Projects Completed</h3>
-                <p className="text-6xl font-bold">124</p>
-              </li>
-              <li className="flex flex-col items-center justify-center p-16 gap-4">
-                <h3 className="text-2xl text-center">Years of Experience</h3>
-                <p className="text-6xl font-bold">15+</p>
-              </li>
-              <li className="flex flex-col items-center justify-center p-16 gap-4">
-                <h3 className="text-2xl text-center">Cities Served</h3>
-                <p className="text-6xl font-bold">6</p>
-              </li>
-            </ul>
+            {/*<ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">*/}
+            {/*  <li className="flex flex-col items-center justify-center p-16 gap-4">*/}
+            {/*    <h3 className="text-2xl text-center">Projects Completed</h3>*/}
+            {/*    <p className="text-6xl font-bold">124</p>*/}
+            {/*  </li>*/}
+            {/*  <li className="flex flex-col items-center justify-center p-16 gap-4">*/}
+            {/*    <h3 className="text-2xl text-center">Years of Experience</h3>*/}
+            {/*    <p className="text-6xl font-bold">15+</p>*/}
+            {/*  </li>*/}
+            {/*  <li className="flex flex-col items-center justify-center p-16 gap-4">*/}
+            {/*    <h3 className="text-2xl text-center">Cities Served</h3>*/}
+            {/*    <p className="text-6xl font-bold">6</p>*/}
+            {/*  </li>*/}
+            {/*</ul>*/}
           </div>
         </section>
 
@@ -67,24 +67,20 @@ export default function About() {
           <h1 className="text-6xl text-gray-50 font-bold p-8">People</h1>
           <PersonCard
             name="Jesus Hernandez"
-            image_src="/jesus_hernandez.png"
+            image_src="/jesus.png"
             role="Owner, Renovation Specialist"
             bio="With over a decade of experience in residential and commercial renovations across the Niagara region, Jesus is a trusted name in quality craftsmanship and professional service. As the owner of his renovation business, he brings a deep expertise in finish carpentry and space planning, with a portfolio that includes the installation of hundreds of kitchens and countless beautifully finished interiors.
                 Jesus is known for his precision, attention to detail, and commitment to excellence—his finishing work consistently exceeds expectations. Clients value not only his skill but also his reliability, cleanliness, and respectful presence in their homes. A devoted family man who lives with integrity, Jesus runs his business with the same values he lives by: honesty, quality, and care.
                 Whether you're planning a full renovation or a custom upgrade, Jesus brings experience, craftsmanship, and a level of professionalism that makes him someone you’ll be glad to have on your project—and in your home."
           />
-          <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 card-row">
-            <li>
-              <PersonCard
-                name="Jennifer Hernández"
-                image_src="/jennifer_hernandez.jpg"
-                role="Customer Success & Design"
-                bio="Jennifer Hernandez is a seasoned Customer Experience and Design Consultant specializing in kitchen and cabinetry renovations. With a strong eye for detail and a passion for delivering exceptional client experiences, Jennifer combines technical expertise with a customer-first approach to guide homeowners through every stage of their renovation journey.
+          <PersonCard
+            name="Jennifer Hernández"
+            image_src="/jennifer.png"
+            role="Customer Success & Design"
+            bio="Jennifer Hernandez is a seasoned Customer Experience and Design Consultant specializing in kitchen and cabinetry renovations. With a strong eye for detail and a passion for delivering exceptional client experiences, Jennifer combines technical expertise with a customer-first approach to guide homeowners through every stage of their renovation journey.
 She creates precise 3D renderings and production drawings that bring design concepts to life, helping clients visualize their spaces before work begins. Jennifer also assists in selecting finishes, colours, and materials, ensuring each project reflects the client’s personal style while maintaining functionality and quality.
 Known for her friendly and professional demeanor, Jennifer is deeply committed to getting every detail right. She coordinates all aspects of the renovation process, seamlessly bridging the gap between design and execution. Her extensive experience—both in client-facing roles and behind the scenes—has contributed to the success of countless renovation projects."
-              />
-            </li>
-          </ul>
+          />
         </section>
 
         {/* Contact section */}

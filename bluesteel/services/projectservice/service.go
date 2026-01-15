@@ -12,8 +12,10 @@ type Service interface {
 	Update(id models.ProjectID, projectDTO *models.ProjectDTO) error
 	GetImages(id models.ProjectID) ([]string, error)
 	GetTags() ([]string, error)
+	DeleteTag(tag string) error
 }
 
 var (
 	ErrProjectNotFound = errors.New("project not found")
+	ErrEmptyTag        = errors.New("empty tag provided")
 )
