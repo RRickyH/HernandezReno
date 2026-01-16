@@ -479,11 +479,15 @@ Obviously development steps depend on your environment... I made this project on
 basic steps you'll need to take.
 
   * Clone the repo
-  * Install npm
+  * Copy the .env.example file to a .env file and add the necessary variables.
   * Install docker desktop and WSL if necessary
-  * Run ```npm run dev``` from .\restile to start the frontend (access from http://localhost:5173)
   * Start docker desktop (get the docker engine running)
-  * Run ```docker compose -f .\docker-compose.dev.yml up``` to run the backend and database. (http://localhost:8080)
+  * Run ```docker compose -f ./docker-compose.dev.yml up -d --build``` to run the backend and database. (http://localhost:8080)
+  * Install npm
+  * Run the frontend from the restile directory: ```cd restile```
+  * Install dependencies: ```npm install```
+  * Run ```npm run dev``` to start the frontend (access from http://localhost:5173)
+  * Make changes; both the frontend and backend have hot-reloading through vite and air respectively.
 
 Postman is especially helpful for testing the backend.
 
