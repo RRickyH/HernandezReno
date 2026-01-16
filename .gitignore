@@ -1,0 +1,38 @@
+# Ignore environment variables.
+.env
+*.log
+*.swp
+*.exe
+*.out
+*.o
+*.a
+*.so
+
+# Backend
+backend/app
+backend/bin/
+backend/pkg/
+backend/vendor/
+tmp
+
+# Database
+pgdata/
+postrges-data/
+*.db
+*.sqlite
+*.pgdump
+*.pgpass
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# SSL Certificates
+certbot-conf/
