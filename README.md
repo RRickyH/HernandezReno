@@ -8,6 +8,8 @@ A professional website for Hernandez Renovations custom kitchens and finish carp
 ![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
 [![Deploy to GitHub Pages](https://github.com/RRickyH/HernandezReno/actions/workflows/blank.yml/badge.svg)](https://github.com/RRickyH/HernandezReno/actions/workflows/blank.yml)
+![GitHub release version](https://img.shields.io/github/v/release/RRickyH/HernandezReno)
+
 
 **Check it out:** [hernandezreno.ca](https://hernandezreno.ca)<br>
 
