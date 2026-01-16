@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { SiteContext } from "src/Context.tsx";
 import NavBar from "src/components/navigation/NavBar.tsx";
 import Footer from "src/components/navigation/Footer.tsx";
+import LoadingModal from "src/components/LoadingModal";
 
 function Home() {
   const { config, loading } = useContext(SiteContext);
@@ -53,13 +54,7 @@ function Home() {
             </div>
           </div>
         </section>
-        {loading ? (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-            Loading
-          </div>
-        ) : (
-          <></>
-        )}
+        {loading ? <LoadingModal /> : <></>}
       </main>
       <Footer />
     </div>
