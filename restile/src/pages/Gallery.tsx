@@ -7,6 +7,7 @@ import NavBar from "src/components/navigation/NavBar.tsx";
 import Footer from "src/components/navigation/Footer.tsx";
 import ProjectCard from "src/components/ProjectCard.tsx";
 import fireplaceImage from "src/assets/fireplace.jpg";
+import LoadingModal from "src/components/LoadingModal";
 
 export default function Gallery() {
   const [activeTag, setActiveTag] = useState("");
@@ -80,31 +81,29 @@ export default function Gallery() {
           </div>
           {/* Project Images */}
           <div className="container columns-md md:columns-2 lg:columns-3 gap-4">
-            {projects
-              .filter((project) => {
-                // Show all projects if there's no filter tag.
-                if (!activeTag) return true;
-                return project.tags?.includes(activeTag);
-              })
-              .map((project) => (
-                <ProjectCard
-                  title={project.title}
-                  id={String(project.id)}
-                  tags={project.tags}
-                  images={getImageURLs(project.imageKeys)}
-                  description={project.description}
-                  date={project.date}
-                />
-              ))}
+            {projects ? (
+              projects
+                .filter((project) => {
+                  // Show all projects if there's no filter tag.
+                  if (!activeTag) return true;
+                  return project.tags?.includes(activeTag);
+                })
+                .map((project) => (
+                  <ProjectCard
+                    title={project.title}
+                    id={String(project.id)}
+                    tags={project.tags}
+                    images={getImageURLs(project.imageKeys)}
+                    description={project.description}
+                    date={project.date}
+                  />
+                ))
+            ) : (
+              <span className="font-light italic text-2xl">No projects...</span>
+            )}
           </div>
         </section>
-        {loading ? (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-            Loading
-          </div>
-        ) : (
-          <></>
-        )}
+        {loading ? <LoadingModal /> : <></>}
       </main>
       <Footer />
     </div>
