@@ -1,0 +1,88 @@
+services:
+  bluesteel:
+    build: ./bluesteel
+    env_file:
+      .env
+    expose:
+      - "8080"
+    environment:
+      VIRTUAL_HOST: ${VIRTUAL_HOST}
+      VIRTUAL_PORT: "8080"
+      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: bluesteel_db
+    volumes:
+      - db_data:/var/lib/postgresql
+    restart: always
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DATABASE_USER}"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    labels:
+      - "com.github.nginx-proxy.nginx"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - html:/usr/share/nginx/html
+      - certs:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    depends_on:
+      bluesteel:
+        condition: service_started
+
+  acme-companion:
+    image: nginxproxy/acme-companion
+    volumes:
+      - html:/usr/share/nginx/html
+      - certs:/etc/nginx/certs
+      - acme:/etc/acme.sh
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+    environment:
+      DEFAULT_EMAIL: ${DEFAULT_EMAIL}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    depends_on:
+      - nginx-proxy
+
+volumes:
+  db_data:
+  html:
+  certs:
+  acme:
